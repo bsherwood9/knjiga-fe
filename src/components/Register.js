@@ -22,9 +22,13 @@ function Register() {
     } else if (formData.password.length < 8) {
       setError("Password needs to be at least 8 characters.");
     } else {
-      let { email, password } = formData;
+      let { email, password, name } = formData;
       axios
-        .post("localhost:5600/api/auth/register", { email, password })
+        .post("http://localhost:5700/api/auth/register", {
+          email,
+          password,
+          name,
+        })
         .then((data) => {
           console.log(data);
         })
