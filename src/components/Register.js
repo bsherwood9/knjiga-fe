@@ -24,7 +24,7 @@ function Register() {
     } else {
       let { email, password, name } = formData;
       axios
-        .post("http://localhost:5700/api/auth/register", {
+        .post("http://localhost:2300/api/auth/register", {
           email,
           password,
           name,

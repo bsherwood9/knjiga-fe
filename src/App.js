@@ -3,6 +3,7 @@ import BookBrowser from "./components/BookBrowse.js";
 import BookClub from "./components/BookClub.js";
 import Navigation from "./components/Navigation";
 import Register from "./components/Register";
+import Login from "./components/Login";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/">
           <h1>Welcome Loves</h1>
           <Register />
+          <Login />
         </Route>
       </Switch>
     </Router>

@@ -36,7 +36,7 @@ function BookBrowser() {
       <button onClick={submitSearch}>Search</button>
       <div className="card-grid">
         {results.length === 0 ? (
-          <h1>Nothing to show....</h1>
+          <h1>Please search for a book...</h1>
         ) : (
           results.map((item) => {
             console.log(item);
