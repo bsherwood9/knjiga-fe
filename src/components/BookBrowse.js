@@ -7,6 +7,7 @@ function BookBrowser() {
   const [results, setResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [words, setWords] = useState("");
+  const [clubList, setClubList] = useState([]);
   const [displayedData, setDisplayedData] = useState();
   let [beginning, setBeginning] = useState(0);
   let [offset, setOffset] = useState(10);
@@ -17,14 +18,26 @@ function BookBrowser() {
         `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=10&key=AIzaSyBHxFwknXdd5EzjWn7dNS80jVOxzsxcrL0`
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setResults(res.data.items);
       })
       .catch((err) => console.log(err));
   }, [searchTerm]);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:2600/api/clubs/clubList", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setClubList(res.data.data);
+        console.log("clubs data", clubList);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const handleChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setWords(e.target.value);
   };
   const submitSearch = () => {
@@ -39,8 +52,7 @@ function BookBrowser() {
           <h1>Please search for a book...</h1>
         ) : (
           results.map((item) => {
-            console.log(item);
-            return <Card data={item} key={item.id} />;
+            return <Card data={item} key={item.id} clubs={clubList} />;
           })
         )}
       </div>

@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import * as Vibrant from "node-vibrant";
-export default function Card({ data }) {
+import axios from "axios";
+export default function Card({ data, clubs }) {
   let [shade, setShade] = useState("");
-  let [directory, setDirectory] = useState(false);
+  let [showClubs, setShowClubs] = useState(false);
 
+  let dataObject = {
+    bookId: data.id,
+    image: data.volumeInfo.imageLinks.smallThumbnail,
+    title: data.volumeInfo.title,
+    searchInfo: data.searchInfo?.textSnippet,
+    description: data.volumeInfo.description,
+    pageCount: data.volumeInfo.pageCount,
+    publishDate: data.volumeInfo.publishedDate,
+    categories: data.volumeInfo.categories,
+    author: data.volumeInfo.authors,
+    bookColor: shade,
+  };
   useEffect(() => {
     let setUpPalette = () => {
       if (data.volumeInfo.imageLinks) {
@@ -23,28 +36,32 @@ export default function Card({ data }) {
       }
     };
     setUpPalette();
-  });
+  }, []);
   //https://stackoverflow.com/questions/48351978/node-vibrant-package-and-react
 
   function addtoBookClub() {
-    let dataObject = {
-      bookId: data.id,
-      image: data.volumeInfo.imageLinks.smallThumbnail,
-      title: data.volumeInfo.title,
-      searchInfo: data.searchInfo?.textSnippet,
-      description: data.volumeInfo.description,
-      pageCount: data.volumeInfo.pageCount,
-      publishDate: data.volumeInfo.publishedDate,
-      categories: data.volumeInfo.categories,
-      author: data.volumeInfo.authors,
-      bookColor: shade,
-    };
-    return console.log(dataObject);
+    setShowClubs(true);
+    console.log("club data on card,", clubs);
   }
 
-  function addtoDB() {
-    setDirectory(!directory);
+  function addToShelves() {
+    console.log(dataObject);
   }
+
+  function addBookToClub(id) {
+    console.log(id);
+    console.log(data.id);
+    let update = { bookSelection: data.id };
+    axios
+      .put(`http://localhost:2600/api/clubs/edit/${id}`, update, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  // function addtoDB() {
+  //   setDirectory(!directory);
+  // }
 
   let publishDate = data.volumeInfo.publishedDate;
   let categories = data.volumeInfo.categories;
@@ -74,14 +91,21 @@ export default function Card({ data }) {
         </div>
       </div>
       <div>
-        <button onClick={addtoDB}>Add</button>
-        {directory && (
+        <button>Add</button>
+        {clubs.length > 0 && (
+          <button onClick={addtoBookClub}>Add to Bookclub</button>
+        )}
+        {showClubs && (
           <div>
-            <h1>Favorites</h1>
-            <h1>Current Reading</h1>
+            {clubs.map((item) => {
+              return (
+                <h1 onClick={() => addBookToClub(item.id)} key={item.id}>
+                  {item.clubName}
+                </h1>
+              );
+            })}
           </div>
         )}
-        <button onClick={addtoBookClub}>Add to Bookclub</button>
       </div>
     </div>
   );
