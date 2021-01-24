@@ -8,6 +8,7 @@ function BookBrowser() {
   const [searchTerm, setSearchTerm] = useState("");
   const [words, setWords] = useState("");
   const [clubList, setClubList] = useState([]);
+  const [shelfList, setShelfList] = useState([]);
   const [displayedData, setDisplayedData] = useState();
   let [beginning, setBeginning] = useState(0);
   let [offset, setOffset] = useState(10);
@@ -26,12 +27,21 @@ function BookBrowser() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:2600/api/clubs/clubList", {
+      .get("http://localhost:2700/api/clubs/clubList", {
         withCredentials: true,
       })
       .then((res) => {
         setClubList(res.data.data);
         console.log("clubs data", clubList);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get("http://localhost:2700/api/shelves/", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("shelf data", res.data);
       })
       .catch((err) => console.log(err));
   }, []);

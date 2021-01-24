@@ -10,7 +10,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:2600/api/auth/login", logData, {
+      .post("http://localhost:2700/api/auth/login", logData, {
         withCredentials: true,
       })
       .then((data) => console.log(data))

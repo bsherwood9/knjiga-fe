@@ -6,6 +6,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import BookShelfPage from "./components/BookShelfPage.js";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/bookclub">
           <BookClub />
+        </Route>
+        <Route path="/myshelves">
+          <BookShelfPage />
         </Route>
         <Route path="/">
           <h1>Welcome Loves</h1>

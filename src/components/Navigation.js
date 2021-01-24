@@ -15,7 +15,7 @@ function Navigation() {
         <Link to="/bookclub">Book Club</Link>
       </li>
       <li>
-        <Link to="/shelves">Shelves</Link>
+        <Link to="/myshelves">Shelves</Link>
       </li>
     </ul>
   );
