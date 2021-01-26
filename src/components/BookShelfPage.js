@@ -5,7 +5,7 @@ function BookShelfPage() {
   const [myShelves, setMyShelves] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:2700/api/shelves/", { withCredentials: true })
+      .get("http://localhost:2800/api/shelves/", { withCredentials: true })
       .then((data) => {
         console.log(data);
         setMyShelves(data.data);
