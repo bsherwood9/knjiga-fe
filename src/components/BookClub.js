@@ -41,7 +41,7 @@ function BookClub() {
     e.preventDefault();
     console.log(bookclub);
     axios
-      .post("http://localhost:2700/api/clubs/add", bookclub, {
+      .post("http://localhost:4000/api/clubs/add", bookclub, {
         withCredentials: true,
       })
       .then((data) => console.log(data))

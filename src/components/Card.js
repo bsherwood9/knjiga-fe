@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import * as Vibrant from "node-vibrant";
 import axios from "axios";
-export default function Card({ data, clubs }) {
+export default function Card({ data, clubs, shelves }) {
   let [shade, setShade] = useState("");
   let [showClubs, setShowClubs] = useState(false);
+  let [showShelves, setShowShelves] = useState(false);
 
   let dataObject = {
     bookId: data.id,
-    image: data.volumeInfo.imageLinks.smallThumbnail,
+    image: data.volumeInfo.imageLinks?.smallThumbnail,
     title: data.volumeInfo.title,
     searchInfo: data.searchInfo?.textSnippet,
     description: data.volumeInfo.description,
@@ -44,8 +45,14 @@ export default function Card({ data, clubs }) {
     console.log("club data on card,", clubs);
   }
 
-  function addToShelves() {
-    console.log(dataObject);
+  function addToShelves(id) {
+    dataObject.shelfId = id;
+    axios
+      .post(`http://localhost:4000/api/books/add`, dataObject, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
 
   function addBookToClub(id) {
@@ -53,15 +60,12 @@ export default function Card({ data, clubs }) {
     console.log(data.id);
     let update = { bookSelection: data.id };
     axios
-      .put(`http://localhost:2600/api/clubs/edit/${id}`, update, {
+      .put(`http://localhost:4000/api/clubs/edit/${id}`, update, {
         withCredentials: true,
       })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
-  // function addtoDB() {
-  //   setDirectory(!directory);
-  // }
 
   let publishDate = data.volumeInfo.publishedDate;
   let categories = data.volumeInfo.categories;
@@ -91,7 +95,27 @@ export default function Card({ data, clubs }) {
         </div>
       </div>
       <div>
-        <button>Add</button>
+        {shelves.length > 0 && (
+          <button
+            onClick={() => {
+              setShowShelves(!showShelves);
+              console.log(showShelves);
+            }}
+          >
+            Add
+          </button>
+        )}
+        {showShelves && (
+          <div>
+            {shelves.map((item) => {
+              return (
+                <p onClick={() => addToShelves(item.id)} key={item.id}>
+                  {item.title}
+                </p>
+              );
+            })}
+          </div>
+        )}
         {clubs.length > 0 && (
           <button onClick={addtoBookClub}>Add to Bookclub</button>
         )}

@@ -27,7 +27,7 @@ function BookBrowser() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:2700/api/clubs/clubList", {
+      .get("http://localhost:4000/api/clubs/clubList", {
         withCredentials: true,
       })
       .then((res) => {
@@ -37,11 +37,12 @@ function BookBrowser() {
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:2700/api/shelves/", {
+      .get("http://localhost:4000/api/shelves/", {
         withCredentials: true,
       })
       .then((res) => {
         console.log("shelf data", res.data);
+        setShelfList(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -62,7 +63,14 @@ function BookBrowser() {
           <h1>Please search for a book...</h1>
         ) : (
           results.map((item) => {
-            return <Card data={item} key={item.id} clubs={clubList} />;
+            return (
+              <Card
+                data={item}
+                key={item.id}
+                clubs={clubList}
+                shelves={shelfList}
+              />
+            );
           })
         )}
       </div>
