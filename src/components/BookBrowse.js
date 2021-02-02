@@ -27,7 +27,7 @@ function BookBrowser() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/clubs/clubList", {
+      .get("http://localhost:4001/api/clubs/clubList", {
         withCredentials: true,
       })
       .then((res) => {
@@ -37,7 +37,7 @@ function BookBrowser() {
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:4000/api/shelves/", {
+      .get("http://localhost:4001/api/shelves/", {
         withCredentials: true,
       })
       .then((res) => {

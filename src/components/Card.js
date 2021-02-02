@@ -40,7 +40,7 @@ export default function Card({ data, clubs, shelves }) {
   }, []);
   //https://stackoverflow.com/questions/48351978/node-vibrant-package-and-react
 
-  function addtoBookClub() {
+  function clickClubs() {
     setShowClubs(true);
     console.log("club data on card,", clubs);
   }
@@ -55,12 +55,11 @@ export default function Card({ data, clubs, shelves }) {
       .catch((err) => console.log(err));
   }
 
-  function addBookToClub(id) {
+  function addBookToClub(id, data) {
     console.log(id);
-    console.log(data.id);
-    let update = { bookSelection: data.id };
+    let update = data;
     axios
-      .put(`http://localhost:4000/api/clubs/edit/${id}`, update, {
+      .put(`http://localhost:4001/api/clubs/edit/${id}`, update, {
         withCredentials: true,
       })
       .then((res) => console.log(res))
@@ -117,13 +116,18 @@ export default function Card({ data, clubs, shelves }) {
           </div>
         )}
         {clubs.length > 0 && (
-          <button onClick={addtoBookClub}>Add to Bookclub</button>
+          <button onClick={clickClubs}>Add to Bookclub</button>
         )}
         {showClubs && (
           <div>
             {clubs.map((item) => {
               return (
-                <h1 onClick={() => addBookToClub(item.id)} key={item.id}>
+                <h1
+                  onClick={() => {
+                    addBookToClub(item.id, dataObject);
+                  }}
+                  key={item.id}
+                >
                   {item.clubName}
                 </h1>
               );

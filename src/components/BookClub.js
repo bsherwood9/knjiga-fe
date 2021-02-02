@@ -7,10 +7,11 @@ function BookClub() {
     clubName: "",
   });
   let [clubList, setClubList] = useState([]);
+  let [book, setBook] = useState(null);
 
   useEffect(() => {
     axios
-      .get("http://localhost:2600/api/clubs/clubList", {
+      .get("http://localhost:4001/api/clubs/clubList", {
         withCredentials: true,
       })
       .then((res) => {
@@ -19,19 +20,6 @@ function BookClub() {
       })
       .catch((err) => console.log(err));
   }, []);
-  //showing my clubs
-  // const ShowClubs = () => {
-  //   if (clubList.length > 0) {
-  //     clubList.map((item) => {
-  //       return (
-  //         <div>
-  //           <h1>{item.clubName}</h1>
-  //         </div>
-  //       );
-  //     });
-  //   }
-  //   return <h1>You have no clubs</h1>;
-  // };
 
   //helper functions
   const changeHandler = (e) => {
@@ -41,7 +29,7 @@ function BookClub() {
     e.preventDefault();
     console.log(bookclub);
     axios
-      .post("http://localhost:4000/api/clubs/add", bookclub, {
+      .post("http://localhost:4001/api/clubs/add", bookclub, {
         withCredentials: true,
       })
       .then((data) => console.log(data))
