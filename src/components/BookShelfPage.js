@@ -9,7 +9,7 @@ function BookShelfPage() {
         withCredentials: true,
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data);
         setMyShelves(data.data);
       })
       .catch((err) => console.log(err));
